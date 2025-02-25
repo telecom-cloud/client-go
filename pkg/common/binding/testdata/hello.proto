@@ -1,0 +1,8 @@
+syntax = "proto3";
+package crafter;
+option go_package = "crafter/hello";
+
+message CrafterReq {
+  string Name = 1;
+}
+

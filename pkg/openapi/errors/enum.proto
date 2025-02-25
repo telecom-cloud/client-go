@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package errors;
+
+option go_package = "errors";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.EnumOptions {
+  int32 default_code = 1108;
+}
+
+extend google.protobuf.EnumValueOptions {
+  int32 code = 1109;
+}
+
+enum StatusReason {
+  // Unknown means the server has declined to indicate a specific reason.
+  // The details field may contain other information about this error.
+  // Status code 500.
+  Unknown = 0 [(code) = 500];
+
+  // Unauthorized means the server can be reached and understood the request, but requires
+  // the user to present appropriate authorization credentials (identified by the WWW-Authenticate header)
+  // in order for the action to be completed. If the user has specified credentials on the request, the
+  // server considers them insufficient.
+  // Status code 401
+  Unauthorized = 1 [(code) = 401];
+
+  // Forbidden means the server can be reached and understood the request, but refuses
+  // to take any further action.  It is the result of the server being configured to deny access for some reason
+  // to the requested resource by the client.
+  // Status code 403
+  Forbidden = 2 [(code) = 403];
+
+  // NotFound means one or more resources required for this operation
+  // could not be found.
+  // Status code 404
+  NotFound = 3 [(code) = 404];
+
+  // AlreadyExists means the resource you are creating already exists.
+  // Status code 409
+  AlreadyExists = 4 [(code) = 409];
+
+  // Conflict means the requested operation cannot be completed
+  // due to a conflict in the operation. The client may need to alter the
+  // request. Each resource may define custom details that indicate the
+  // nature of the conflict.
+  // Status code 409
+  Conflict = 5 [(code) = 409];
+
+  // Gone means the item is no longer available at the server and no
+  // forwarding address is known.
+  // Status code 410
+  Gone = 6 [(code) = 410];
+
+  // Invalid means the requested create or update operation cannot be
+  // completed due to invalid data provided as part of the request. The client may
+  // need to alter the request. When set, the client may use the StatusDetails
+  // message field as a summary of the issues encountered.
+  // Status code 422
+  Invalid = 7 [(code) = 422];
+
+  // ServerTimeout means the server can be reached and understood the request,
+  // but cannot complete the action in a reasonable time. The client should retry the request.
+  // This is may be due to temporary server load or a transient communication issue with
+  // another server. Status code 500 is used because the HTTP spec provides no suitable
+  // server-requested client retry and the 5xx class represents actionable errors.
+  // Status code 500
+  ServerTimeout = 8 [(code) = 500];
+
+  // Timeout means that the request could not be completed within the given time.
+  // Clients can get this response only when they specified a timeout param in the request,
+  // or if the server cannot complete the operation within a reasonable amount of time.
+  // The request might succeed with an increased value of timeout param. The client *should*
+  // wait at least the number of seconds specified by the retryAfterSeconds field.
+  // Details (optional):
+  //   "retryAfterSeconds" int32 - the number of seconds before the operation should be retried
+  // Status code 504
+  Timeout = 9 [(code) = 504];
+
+  // TooManyRequests means the server experienced too many requests within a
+  // given window and that the client must wait to perform the action again. A client may
+  // always retry the request that led to this error, although the client should wait at least
+  // the number of seconds specified by the retryAfterSeconds field.
+  // Details (optional):
+  //   "retryAfterSeconds" int32 - the number of seconds before the operation should be retried
+  // Status code 429
+  TooManyRequests = 10 [(code) = 429];
+
+  // BadRequest means that the request itself was invalid, because the request
+  // doesn't make any sense, for example deleting a read-only object.  This is different than
+  // Invalid above which indicates that the API call could possibly succeed, but the
+  // data was invalid.  API calls that return BadRequest can never succeed.
+  // Status code 400
+  BadRequest = 11 [(code) = 400];
+
+  // MethodNotAllowed means that the action the client attempted to perform on the
+  // resource was not supported by the code - for instance, attempting to delete a resource that
+  // can only be created. API calls that return MethodNotAllowed can never succeed.
+  // Status code 405
+  MethodNotAllowed = 12 [(code) = 405];
+
+  // NotAcceptable means that the accept types indicated by the client were not acceptable
+  // to the server - for instance, attempting to receive protobuf for a resource that supports only json and yaml.
+  // API calls that return NotAcceptable can never succeed.
+  // Status code 406
+  NotAcceptable = 13 [(code) = 406];
+
+  // RequestEntityTooLarge means that the request entity is too large.
+  // Status code 413
+  RequestEntityTooLarge = 14 [(code) = 413];
+
+  // UnsupportedMediaType means that the content type sent by the client is not acceptable
+  // to the server - for instance, attempting to send protobuf for a resource that supports only json and yaml.
+  // API calls that return UnsupportedMediaType can never succeed.
+  // Status code 415
+  UnsupportedMediaType = 15 [(code) = 415];
+
+  // InternalError indicates that an internal error occurred, it is unexpected
+  // and the outcome of the call is unknown.
+  // Details (optional):
+  //   "causes" - The original error
+  // Status code 500
+  InternalError = 16 [(code) = 500];
+
+  // Expired indicates that the request is invalid because the content you are requesting
+  // has expired and is no longer available. It is typically associated with watches that can't be
+  // serviced.
+  // Status code 410 (gone)
+  Expired = 17 [(code) = 410];
+
+  // ServiceUnavailable means that the request itself was valid,
+  // but the requested service is unavailable at this time.
+  // Retrying the request after some time might succeed.
+  // Status code 503
+  ServiceUnavailable = 18 [(code) = 503];
+
+  // PaymentRequired indicates that requested content is not available until the client makes a payment.
+  PaymentRequired = 20 [(code) = 402];
+
+  RequestTimeout = 21 [(code) = 408];
+
+  QuotaExceed = 22 [(code) = 429];
+
+  OutOfRange = 23 [(code) = 400];
+}
