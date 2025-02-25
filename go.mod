@@ -1,6 +1,6 @@
 module github.com/telecom-cloud/client-go
 
-go 1.21
+go 1.22.6
 
 require (
 	github.com/bytedance/gopkg v0.1.1
