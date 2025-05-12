@@ -2,6 +2,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strconv"
 
@@ -47,7 +48,12 @@ func (r *Response) ParseStatusCode() int {
 	}
 }
 
-func (r *Response) BindResponse(jsonStr string) error {
+func BindResponse(jsonStr string, dst interface{}) error {
+	r, ok := dst.(*Response)
+	if !ok {
+		return errors.New("can not bind response")
+	}
+
 	err := json.Unmarshal([]byte(jsonStr), &r.InnerResponse)
 	if err != nil {
 		return err
