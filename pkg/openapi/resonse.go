@@ -9,6 +9,12 @@ import (
 )
 
 type Response struct {
+	InnerResponse `json:",inline"`
+	// Data returned upon success
+	ReturnObj interface{} `json:"returnObj"`
+}
+
+type InnerResponse struct {
 	StatusCode interface{} `json:"statusCode,omitempty"`
 	// Error code, which is a three part code for product.module.code
 	Error string `json:"error,omitempty"`
@@ -16,18 +22,17 @@ type Response struct {
 	Message string `json:"message,omitempty"`
 	// Error description during failure, usually in Chinese
 	Description string `json:"description,omitempty"`
-	// Data returned upon success
-	ReturnObj interface{} `json:"returnObj"`
 }
 
 func (r *Response) DeepCopy() Response {
-	return Response{
-		StatusCode:  r.StatusCode,
-		Error:       r.Error,
-		Message:     r.Message,
-		Description: r.Description,
-		ReturnObj:   r.ReturnObj,
+	resp := Response{
+		ReturnObj: r.ReturnObj,
 	}
+	resp.StatusCode = r.StatusCode
+	resp.Error = r.Error
+	resp.Message = r.Message
+	resp.Description = r.Description
+	return resp
 }
 
 func (r *Response) ParseStatusCode() int {
@@ -42,7 +47,12 @@ func (r *Response) ParseStatusCode() int {
 	}
 }
 
-func (r *Response) BindReturnObj(jsonStr string) error {
+func (r *Response) BindResponse(jsonStr string) error {
+	err := json.Unmarshal([]byte(jsonStr), &r.InnerResponse)
+	if err != nil {
+		return err
+	}
+
 	value := gjson.Get(jsonStr, "returnObj")
 	if value.IsObject() {
 		return json.Unmarshal([]byte(value.String()), &r.ReturnObj)

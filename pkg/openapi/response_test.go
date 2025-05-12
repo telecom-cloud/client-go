@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 )
@@ -85,18 +84,18 @@ func TestUnmarshalReturnObj(t *testing.T) {
 }
 
 func bind(data string, response Response) error {
-	err := response.BindReturnObj(data)
+	err := response.BindResponse(data)
 	if err != nil {
 		return err
 	}
-	fmt.Println(response.ReturnObj)
+	fmt.Printf("statusCode: %v, returnObj: %v\n", response.StatusCode, response.ReturnObj)
 	return nil
 }
 
 func TestUnmarshalStatusCode(t *testing.T) {
 	response := Response{}
 	strCode := `{"statusCode": "800"}`
-	err := json.Unmarshal([]byte(strCode), &response)
+	err := response.BindResponse(strCode)
 	if err != nil {
 		t.Error(err)
 		return
@@ -104,7 +103,7 @@ func TestUnmarshalStatusCode(t *testing.T) {
 	fmt.Println(response.StatusCode)
 
 	intCode := `{"statusCode": 800}`
-	err = json.Unmarshal([]byte(intCode), &response)
+	err = response.BindResponse(intCode)
 	if err != nil {
 		t.Error(err)
 		return
