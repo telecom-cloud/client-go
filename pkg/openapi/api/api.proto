@@ -24,6 +24,8 @@ extend google.protobuf.FieldOptions {
   optional string js_conv_compatible = 50132;
   optional string file_name_compatible = 50133;
   optional string none_compatible = 50134;
+  optional string query_compatible = 50135;
+  optional string body_compatible = 50136;
   // 50135 is reserved to vt_compatible
   // optional FieldRules vt_compatible = 50135;
 
