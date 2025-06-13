@@ -43,8 +43,8 @@ func (r *Response) ParseStatusCode() int {
 	case string:
 		i, _ := strconv.Atoi(v)
 		return i
-	case int:
-		return v
+	case float64:
+		return int(v)
 	default:
 		return 900
 	}
