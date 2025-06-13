@@ -19,6 +19,8 @@ type InnerResponse struct {
 	StatusCode interface{} `json:"statusCode,omitempty"`
 	// Error code, which is a three part code for product.module.code
 	Error string `json:"error,omitempty"`
+	// Error code, which is a three part code for product.module.code
+	ErrorCode string `json:"errorCode,omitempty"`
 	// Error description during failure, usually in English
 	Message string `json:"message,omitempty"`
 	// Error description during failure, usually in Chinese
