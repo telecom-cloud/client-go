@@ -71,5 +71,6 @@ func BindResponse(jsonStr string, dst interface{}) error {
 		return json.Unmarshal([]byte(buildData), &r.ReturnObj)
 	}
 
-	return nil
+	// For non-standard Response struct, directly deserialize with Json
+	return json.Unmarshal([]byte(jsonStr), &r.ReturnObj)
 }

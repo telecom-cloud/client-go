@@ -84,7 +84,7 @@ func TestUnmarshalReturnObj(t *testing.T) {
 }
 
 func bind(data string, response Response) error {
-	err := response.BindResponse(data)
+	err := BindResponse(data, response)
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func bind(data string, response Response) error {
 func TestUnmarshalStatusCode(t *testing.T) {
 	response := Response{}
 	strCode := `{"statusCode": "800"}`
-	err := response.BindResponse(strCode)
+	err := BindResponse(strCode, response)
 	if err != nil {
 		t.Error(err)
 		return
@@ -103,7 +103,7 @@ func TestUnmarshalStatusCode(t *testing.T) {
 	fmt.Println(response.StatusCode)
 
 	intCode := `{"statusCode": 800}`
-	err = response.BindResponse(intCode)
+	err = BindResponse(intCode, response)
 	if err != nil {
 		t.Error(err)
 		return
