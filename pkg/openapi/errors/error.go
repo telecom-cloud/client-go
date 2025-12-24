@@ -10,10 +10,11 @@ type ApiStatus interface {
 }
 
 type Status struct {
-	Code    int32  `json:"statusCode"`
-	Reason  string `json:"reason"`
-	Message string `json:"message"`
-	Details *StatusDetails
+	RequestId string `json:"requestId"`
+	Code      int32  `json:"statusCode"`
+	Reason    string `json:"reason"`
+	Message   string `json:"message"`
+	Details   *StatusDetails
 }
 
 type StatusDetails struct {
@@ -30,7 +31,7 @@ var _ error = (*StatusError)(nil)
 
 // Error implements the Error interface.
 func (e *StatusError) Error() string {
-	return fmt.Sprintf("code: %d, reason: %s, message: %s", e.ErrStatus.Code, e.ErrStatus.Reason, e.ErrStatus.Message)
+	return fmt.Sprintf("requestId: %s, code: %d, reason: %s, message: %s", e.ErrStatus.RequestId, e.ErrStatus.Code, e.ErrStatus.Reason, e.ErrStatus.Message)
 }
 
 // Status allows access to e's status without having to know the detailed workings
