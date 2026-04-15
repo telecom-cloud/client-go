@@ -58,7 +58,7 @@ func BindResponse(jsonStr string, dst interface{}) error {
 
 	err := json.Unmarshal([]byte(jsonStr), &r.InnerResponse)
 	if err != nil {
-		return err
+		return fmt.Errorf("unmarshal response error: %w ,resp: %s", err, jsonStr)
 	}
 
 	value := gjson.Get(jsonStr, "returnObj")
